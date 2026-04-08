@@ -63,12 +63,12 @@
 
                         {{-- AKSI --}}
                         <td class="text-center">
-                            <a href="{{ route('buku.edit', $item) }}"
+                            <a href="{{ route('buku.edit', $item->id) }}"
                                class="btn btn-warning btn-sm me-1">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 
-                            <form action="{{ route('buku.destroy', $item) }}"
+                            <form action="{{ route('buku.destroy', $item->id) }}"
                                   method="POST"
                                   class="d-inline"
                                   onsubmit="return confirm('Yakin hapus buku ini?')">

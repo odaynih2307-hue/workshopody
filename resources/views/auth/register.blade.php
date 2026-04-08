@@ -1,150 +1,109 @@
-@extends('layouts.auth')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Admin</title>
 
-@section('content')
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/ti-icons/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}">
 
-<style>
-    body{
-        background: linear-gradient(135deg,#4f46e5,#06b6d4);
-        min-height:100vh;
-    }
+    <!-- Layout Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-    .register-card{
-        border:none;
-        border-radius:20px;
-        backdrop-filter: blur(14px);
-        background: rgba(255,255,255,0.90);
-        box-shadow:0 20px 40px rgba(0,0,0,.25);
-    }
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+</head>
 
-    .register-title{
-        font-weight:700;
-        letter-spacing:.5px;
-        color:#1e293b;
-    }
+<body>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+            <div class="row flex-grow">
+                <div class="col-lg-4 mx-auto">
+                    <div class="auth-form-light text-left p-5">
 
-    .form-control{
-        border-radius:12px;
-        padding:12px 14px;
-    }
+                        <div class="brand-logo text-center">
+                            <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
+                        </div>
 
-    .form-control:focus{
-        box-shadow:0 0 0 .2rem rgba(79,70,229,.25);
-        border-color:#6366f1;
-    }
+                        <h4>New here?</h4>
+                        <h6 class="font-weight-light">Create your account below</h6>
 
-    .btn-register{
-        border-radius:12px;
-        padding:12px;
-        font-weight:600;
-        background: linear-gradient(135deg,#4f46e5,#06b6d4);
-        border:none;
-    }
+                        <form method="POST" action="{{ route('register') }}" class="pt-3">
+                            @csrf
 
-    .btn-register:hover{
-        opacity:.9;
-        transform:translateY(-1px);
-    }
+                            <!-- Username -->
+                            <div class="form-group">
+                                <input type="text"
+                                       name="name"
+                                       value="{{ old('name') }}"
+                                       class="form-control form-control-lg @error('name') is-invalid @enderror"
+                                       placeholder="Username"
+                                       required autofocus>
+                            </div>
 
-    .logo{
-        font-size:40px;
-    }
-</style>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <input type="email"
+                                       name="email"
+                                       value="{{ old('email') }}"
+                                       class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                       placeholder="Email"
+                                       required>
+                            </div>
 
+                            <!-- Password -->
+                            <div class="form-group">
+                                <input type="password"
+                                       name="password"
+                                       class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                       placeholder="Password"
+                                       required>
+                            </div>
 
-<div class="container d-flex align-items-center justify-content-center" style="min-height:90vh">
+                            <!-- Confirm Password -->
+                            <div class="form-group">
+                                <input type="password"
+                                       name="password_confirmation"
+                                       class="form-control form-control-lg"
+                                       placeholder="Confirm Password"
+                                       required>
+                            </div>
 
-    <div class="col-md-6">
-        <div class="card register-card p-4">
+                            <!-- Button -->
+                            <div class="mt-3 d-grid gap-2">
+                                <button type="submit"
+                                        class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
+                                    SIGN UP
+                                </button>
+                            </div>
 
-            <div class="text-center mb-4">
-                <div class="logo">📝</div>
-                <h3 class="register-title mt-2">Buat Akun Baru</h3>
-                <small class="text-muted">Daftar untuk mengakses sistem koleksi buku</small>
+                            <div class="text-center mt-4 font-weight-light">
+                                Already have an account?
+                                <a href="{{ route('login') }}" class="text-primary">Login</a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
             </div>
-
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
-
-                {{-- NAMA --}}
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Nama Lengkap</label>
-                    <input id="name" type="text"
-                        class="form-control @error('name') is-invalid @enderror"
-                        name="name"
-                        value="{{ old('name') }}"
-                        placeholder="Masukkan nama lengkap..."
-                        required autofocus>
-
-                    @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- EMAIL --}}
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Email</label>
-                    <input id="email" type="email"
-                        class="form-control @error('email') is-invalid @enderror"
-                        name="email"
-                        value="{{ old('email') }}"
-                        placeholder="Masukkan email..."
-                        required>
-
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- PASSWORD --}}
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Password</label>
-                    <input id="password" type="password"
-                        class="form-control @error('password') is-invalid @enderror"
-                        name="password"
-                        placeholder="Minimal 8 karakter"
-                        required>
-
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- KONFIRMASI --}}
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Konfirmasi Password</label>
-                    <input id="password-confirm" type="password"
-                        class="form-control"
-                        name="password_confirmation"
-                        placeholder="Ulangi password"
-                        required>
-                </div>
-
-                {{-- BUTTON --}}
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-register text-white">
-                        Daftar Sekarang
-                    </button>
-                </div>
-
-                {{-- LINK LOGIN --}}
-                <div class="text-center mt-3">
-                    <small class="text-muted">
-                        Sudah punya akun?
-                        <a href="{{ route('login') }}" class="text-decoration-none fw-semibold">
-                            Login disini
-                        </a>
-                    </small>
-                </div>
-
-            </form>
-
         </div>
-
-        <p class="text-center text-white mt-3 small">
-            © {{ date('Y') }} Sistem Koleksi Buku
-        </p>
     </div>
-
 </div>
 
-@endsection
+<!-- Plugins JS -->
+<script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
+
+<!-- Page JS -->
+<script src="{{ asset('assets/js/off-canvas.js') }}"></script>
+<script src="{{ asset('assets/js/misc.js') }}"></script>
+<script src="{{ asset('assets/js/settings.js') }}"></script>
+<script src="{{ asset('assets/js/todolist.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
+
+</body>
+</html>

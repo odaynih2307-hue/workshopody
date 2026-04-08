@@ -1,102 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Koleksi Buku</title>
+    {{-- WAJIB untuk keamanan Laravel --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Book Admin</title>
 
-    <style>
-    /* RESET */
-    body{
-        background:#f1f5f9;
-        overflow-x:hidden;
-    }
+    {{-- STYLE GLOBAL --}}
+    <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/ti-icons/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 
-    .sidebar{
-        position:fixed;
-        top:0;
-        left:0;
-        width:260px;
-        height:100vh;
-        background:linear-gradient(180deg,#020617,#0f172a);
-        padding-top:20px;
-        z-index:1000;
-    }
-
-    .main-wrapper{
-        margin-left:260px;
-        min-height:100vh;
-        display:flex;
-        flex-direction:column;
-    }
-
-    .topbar{
-        height:70px;
-        background:#020617;
-        display:flex;
-        align-items:center;
-        padding:0 25px;
-    }
-
-    .content{
-        flex:1;
-        padding:30px;
-    }
-
-    .footer{
-        background:#020617;
-        color:#94a3b8;
-        padding:15px;
-        text-align:center;
-    }
-
-    .sidebar .nav-link{
-        color:#cbd5e1;
-        margin:6px 12px;
-        border-radius:10px;
-        padding:12px 16px;
-    }
-
-    .sidebar .nav-link:hover{
-        background:#1e293b;
-        color:white;
-    }
-
-    .sidebar .active{
-        background:#facc15;
-        color:black !important;
-        font-weight:600;
-    }
-    </style>
+    {{-- STYLE KHUSUS PAGE --}}
+    @yield('style-page')
 </head>
 
 <body>
+<div class="container-scroller">
 
-@auth
-    @include('layouts.partials.sidebar')
-@endauth
+    @include('layouts.partials.navbar')
 
-<div class="main-wrapper">
+    <div class="container-fluid page-body-wrapper">
 
-    @auth
-        @include('layouts.partials.header')
-    @endauth
+        @include('layouts.partials.sidebar')
 
-    <div class="content">
-        @yield('content')
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                {{-- CONTENT --}}
+                @yield('content')
+
+            </div>
+
+            @include('layouts.partials.footer')
+
+        </div>
     </div>
-
-    @auth
-        @include('layouts.partials.footer')
-    @endauth
-
 </div>
 
+{{-- JAVASCRIPT GLOBAL --}}
+<script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
+<script src="{{ asset('assets/vendors/chart.js/chart.umd.js') }}"></script>
+<script src="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+    // Setup Axios CSRF Token
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+</script>
+<script src="{{ asset('assets/js/off-canvas.js') }}"></script>
+<script src="{{ asset('assets/js/misc.js') }}"></script>
+<script src="{{ asset('assets/js/settings.js') }}"></script>
+<script src="{{ asset('assets/js/todolist.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
+<script src="{{ asset('assets/js/dashboard.js') }}"></script>
+
+{{-- JAVASCRIPT KHUSUS PAGE --}}
+@yield('js-page')
+
 </body>
-
-
 </html>

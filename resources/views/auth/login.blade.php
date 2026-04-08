@@ -1,137 +1,112 @@
-@extends('layouts.auth')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Admin</title>
 
-@section('content')
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/ti-icons/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}">
 
-<style>
-.login-card{
-    border:none;
-    border-radius:20px;
-    backdrop-filter: blur(14px);
-    background: rgba(255,255,255,0.92);
-    box-shadow:0 20px 40px rgba(0,0,0,.25);
-}
+    <!-- Layout Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-.login-title{
-    font-weight:700;
-    letter-spacing:.5px;
-    color:#1e293b;
-}
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+</head>
 
-.form-control{
-    border-radius:12px;
-    padding:12px 14px;
-}
+<body>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+            <div class="row flex-grow">
+                <div class="col-lg-4 mx-auto">
+                    <div class="auth-form-light text-left p-5">
 
-.form-control:focus{
-    box-shadow:0 0 0 .2rem rgba(79,70,229,.25);
-    border-color:#6366f1;
-}
+                        <div class="brand-logo text-center">
+                            <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
+                        </div>
 
-.btn-login{
-    border-radius:12px;
-    padding:12px;
-    font-weight:600;
-    background: linear-gradient(135deg,#4f46e5,#06b6d4);
-    border:none;
-}
+                        <h4>Hello! Welcome Back</h4>
+                        <h6 class="font-weight-light">Login to continue.</h6>
 
-.btn-login:hover{
-    opacity:.95;
-    transform:translateY(-1px);
-}
+                        {{-- ERROR GLOBAL --}}
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
 
-.login-logo{
-    font-size:40px;
-}
-</style>
+                        {{-- SESSION ERROR --}}
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
 
+                        <form method="POST" action="{{ route('login') }}" class="pt-3">
+                            @csrf
 
-<div class="w-100">
+                            <div class="form-group">
+                                <input type="email"
+                                       name="email"
+                                       value="{{ old('email') }}"
+                                       class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                       placeholder="Email"
+                                       required autofocus>
+                            </div>
 
-    <div class="card login-card p-4">
+                            <div class="form-group">
+                                <input type="password"
+                                       name="password"
+                                       class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                       placeholder="Password"
+                                       required>
+                            </div>
 
-        <div class="text-center mb-4">
-            <div class="login-logo">📚</div>
-            <h3 class="login-title mt-2">Koleksi Buku</h3>
-            <small class="text-muted">Masuk ke sistem</small>
-        </div>
+                            <div class="mt-3 d-grid gap-2">
+                                <button type="submit"
+                                        class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+                        {{-- PEMBATAS --}}
+                        <div class="text-center mt-4">
+                            <hr>
+                            <p>OR</p>
+                        </div>
 
-            {{-- EMAIL --}}
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Email</label>
-                <input id="email" type="email"
-                    class="form-control @error('email') is-invalid @enderror"
-                    name="email"
-                    value="{{ old('email') }}"
-                    placeholder="contoh@email.com"
-                    required autofocus>
+                        {{-- LOGIN GOOGLE --}}
+                        <div class="mt-3 d-grid gap-2">
+                            <a href="{{ url('auth/google') }}"
+                               class="btn btn-block btn-danger btn-lg font-weight-medium">
+                                <i class="fa fa-google"></i> Login dengan Google
+                            </a>
+                        </div>
 
-                @error('email')
-                    <div class="invalid-feedback">
-                        {{ $message }}
+                        <div class="text-center mt-4 font-weight-light">
+                            Don't have an account?
+                            <a href="{{ route('register') }}" class="text-primary">Create</a>
+                        </div>
+
                     </div>
-                @enderror
+                </div>
             </div>
-
-            {{-- PASSWORD --}}
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Password</label>
-                <input id="password" type="password"
-                    class="form-control @error('password') is-invalid @enderror"
-                    name="password"
-                    placeholder="••••••••"
-                    required>
-
-                @error('password')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-
-            {{-- REMEMBER --}}
-            <div class="mb-3 form-check">
-                <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                <label class="form-check-label text-muted" for="remember">
-                    Ingat saya
-                </label>
-            </div>
-
-            {{-- BUTTON --}}
-            <div class="d-grid">
-                <button type="submit" class="btn btn-login text-white">
-                    Login
-                </button>
-            </div>
-
-        </form>
-
-        {{-- REGISTER LINK --}}
-        <div class="text-center mt-4 small">
-            Belum punya akun?
-            <a href="{{ route('register') }}" class="text-decoration-none fw-semibold">
-                Daftar disini
-            </a>
         </div>
-
-        {{-- FORGOT --}}
-        @if (Route::has('password.request'))
-        <div class="text-center mt-2">
-            <a class="text-muted small text-decoration-none" href="{{ route('password.request') }}">
-                Lupa password?
-            </a>
-        </div>
-        @endif
-
     </div>
-
-    <p class="text-center text-white mt-3 small">
-        © {{ date('Y') }} Sistem Koleksi Buku
-    </p>
-
 </div>
 
-@endsection
+<!-- Plugins JS -->
+<script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
+<script src="{{ asset('assets/js/off-canvas.js') }}"></script>
+<script src="{{ asset('assets/js/misc.js') }}"></script>
+<script src="{{ asset('assets/js/settings.js') }}"></script>
+<script src="{{ asset('assets/js/todolist.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
+
+</body>
+</html>

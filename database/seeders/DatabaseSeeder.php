@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Create Test User
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Call WilayahSeeder
+        $this->call(WilayahSeeder::class);
+
+        // Call BarangSeeder if exists
+        if (class_exists(BarangSeeder::class)) {
+            $this->call(BarangSeeder::class);
+        }
     }
 }

@@ -12,13 +12,14 @@ class Buku extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'kode_buku',
+        'kode',
+        'judul',
         'pengarang',
-        'id_kategori'
+        'idkategori'
     ];
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'id_kategori');
+        return $this->belongsTo(Kategori::class, 'idkategori', 'idkategori');
     }
 }

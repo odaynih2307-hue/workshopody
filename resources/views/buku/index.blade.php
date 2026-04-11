@@ -52,7 +52,7 @@
                         <td>
                             @if($item->kategori)
                                 <span class="badge bg-info text-dark px-3 py-2">
-                                    {{ $item->kategori->nama }}
+                                    {{ $item->kategori->nama_kategori }}
                                 </span>
                             @else
                                 <span class="badge bg-secondary px-3 py-2">
@@ -63,12 +63,12 @@
 
                         {{-- AKSI --}}
                         <td class="text-center">
-                            <a href="{{ route('buku.edit', $item->id) }}"
+                            <a href="{{ route('buku.edit', $item->idbuku) }}"
                                class="btn btn-warning btn-sm me-1">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 
-                            <form action="{{ route('buku.destroy', $item->id) }}"
+                            <form action="{{ route('buku.destroy', $item->idbuku) }}"
                                   method="POST"
                                   class="d-inline"
                                   onsubmit="return confirm('Yakin hapus buku ini?')">

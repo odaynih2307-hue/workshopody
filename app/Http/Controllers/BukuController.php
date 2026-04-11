@@ -29,7 +29,12 @@ class BukuController extends Controller
             'pengarang' => 'required',
         ]);
 
-        Buku::create($request->all());
+        Buku::create([
+            'idkategori' => $request->kategori_id,
+            'kode' => $request->kode,
+            'judul' => $request->judul,
+            'pengarang' => $request->pengarang,
+        ]);
 
         return redirect()->route('buku.index')
             ->with('success','Buku berhasil ditambahkan');

@@ -85,12 +85,40 @@
             </a>
         </li>
 
-        </li>
-            <li class="nav-item {{ Request::is('kota*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('kota*') ? 'active' : '' }}">
              <a class="nav-link" href="{{ route('kota.index') }}">
              <span class="menu-title">Kota</span>
              <i class="mdi mdi-map-marker menu-icon"></i>
-                </a>
+            </a>
+        </li>
+
+        {{-- KANTIN SECTION --}}
+        <li class="nav-item mt-3">
+            <span class="nav-link text-muted">Master Kantin</span>
+        </li>
+
+        {{-- KANTIN --}}
+        <li class="nav-item">
+            <a class="nav-link {{ Request::routeIs('kantin.pos') ? 'active' : '' }}" href="{{ route('kantin.pos') }}">
+                <span class="menu-title">Kantin</span>
+                <i class="mdi mdi-store menu-icon"></i>
+            </a>
+        </li>
+
+        {{-- KELOLA KANTIN --}}
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-kelola-kantin" aria-expanded="false" aria-controls="ui-kelola-kantin">
+                <span class="menu-title">Kelola Kantin</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-silverware menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-kelola-kantin">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link {{ Request::routeIs('kantin.vendor.*') ? 'active' : '' }}" href="{{ route('kantin.vendor.index') }}">Vendor</a></li>
+                    <li class="nav-item"> <a class="nav-link {{ Request::routeIs('kantin.menu.*') ? 'active' : '' }}" href="{{ route('kantin.menu.index') }}">Menu</a></li>
+                    <li class="nav-item"> <a class="nav-link {{ Request::routeIs('kantin.pesanan.*') ? 'active' : '' }}" href="{{ route('kantin.pesanan.index') }}">Data Pesanan</a></li>
+                </ul>
+            </div>
         </li>
 
         {{-- STUDI KASUS SECTION --}}

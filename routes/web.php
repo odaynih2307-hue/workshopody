@@ -151,6 +151,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/all-barang', [PenjualanController::class, 'getAllBarang'])->name('penjualan.api.all-barang');
         Route::get('/history', [PenjualanController::class, 'history'])->name('penjualan.api.history');
     });
+    // KANTIN ADMIN ROUTES
+    Route::prefix('kantin')->name('kantin.')->group(function () {
+        // Customer side
+        Route::get('pos', [\App\Http\Controllers\CustomerKantinController::class, 'index'])->name('pos');
+        Route::get('api/menus/{vendor}', [\App\Http\Controllers\CustomerKantinController::class, 'getMenus'])->name('api.menus');
+        Route::post('checkout', [\App\Http\Controllers\CustomerKantinController::class, 'checkout'])->name('checkout');
+        Route::post('api/sync-payment/{order_id}', [\App\Http\Controllers\CustomerKantinController::class, 'syncPayment'])->name('sync-payment');
+
+        // Admin side (Vendor)
+        Route::resource('vendor', \App\Http\Controllers\VendorKantinController::class);
+        Route::resource('menu', \App\Http\Controllers\MenuKantinController::class);
+        Route::get('pesanan', [\App\Http\Controllers\PesananKantinController::class, 'index'])->name('pesanan.index');
+    });
+
 });
 
 /*
